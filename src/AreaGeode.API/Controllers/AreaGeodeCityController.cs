@@ -28,6 +28,8 @@ namespace AreaGeode.API.Controllers
         /// Get a list of cities and their geolocations associated with an area code
         /// </summary>
         /// <param name="areaCode">3-digit area code in US or Canada</param>
+        /// <response code="200">list of objects with cities and geolocation info for area code, empty if no macthing results found</response>
+        /// <response code="500">general error</response>
         /// <returns>List of cities associated with the areacode and their geolocation info</returns>
         [HttpGet("{areaCode}", Name = "GetAreaGeodeCities")]
         public List<AreaGeodeCityView> Get(int areaCode)
