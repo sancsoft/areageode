@@ -1,0 +1,11 @@
+﻿{
+  "Logging": {
+    "IncludeScopes": false,
+    "LogLevel": {
+      "Default": "Information"
+    }
+  },
+  "Database": {
+    "ConnectionString": "Data Source=SERVER; Initial Catalog=AreaGeode; Persist Security Info=True; User ID=USER; Password=PASSWORD; MultipleActiveResultSets=True"
+  }
+}

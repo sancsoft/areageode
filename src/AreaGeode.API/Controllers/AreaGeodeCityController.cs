@@ -11,24 +11,19 @@ using AreaGeode.Library.DAL;
 namespace AreaGeode.API.Controllers
 {
     [Route("api/[controller]")]
-    public class AreaGeodeController : Controller
+    public class AreaGeodeCityController : Controller
     {
         IConfiguration _configuration;
-        public AreaGeodeController(IConfiguration configuration)
+        public AreaGeodeCityController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
         // GET api/areaCode
-        [HttpGet("{areaCode}", Name ="GetAreaGeode")]
-        public AreaGeodeView Get(int areaCode)
+        [HttpGet("{areaCode}", Name = "GetAreaGeodeCities")]
+        public List<AreaGeodeCityView> Get(int areaCode)
         {
-            AreaGeodeViewReposiitory repo = new AreaGeodeViewReposiitory(_configuration);
-            AreaGeodeView o = repo.Find(areaCode);
-            if (o == null)
-            {
-                throw new HttpException("Area Code not found", System.Net.HttpStatusCode.NotFound);
-            }
-            return o;
+            AreaGeodeCityViewReposiitory repo = new AreaGeodeCityViewReposiitory(_configuration);
+            return repo.FindByAreaCode(areaCode).ToList();
         }
     }
 }
