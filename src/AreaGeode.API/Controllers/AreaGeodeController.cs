@@ -13,7 +13,14 @@ namespace AreaGeode.API.Controllers
         {
             _configuration = configuration;
         }
-        // GET api/areaCode
+
+        /// <summary>
+        /// Get geolocation information for an Area Code in the US or Canada
+        /// </summary>
+        /// <param name="areaCode">area code in US or Canada</param>
+        /// <response code="200">geolocation info for area code</response>
+        /// <response code="404">area code not found</response>
+        /// <response code="500">general error</response>
         [HttpGet("{areaCode}", Name ="GetAreaGeode")]
         public AreaGeodeView Get(int areaCode)
         {
