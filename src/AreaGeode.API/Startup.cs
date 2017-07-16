@@ -2,14 +2,22 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.Extensions.Logging;
 using AreaGeode.API.Middleware;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace AreaGeode.API
 {
+    /// <summary>
+    /// .NET Core Startup
+    /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="env">hosting environment</param>
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -20,9 +28,15 @@ namespace AreaGeode.API
             Configuration = builder.Build();
         }
 
+        /// <summary>
+        /// access to the configuration
+        /// </summary>
         public IConfigurationRoot Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// Configure the services - dependency injection, MVC, Swagger
+        /// </summary>
+        /// <param name="services">chain of services</param>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IConfiguration>(Configuration);
@@ -40,10 +54,17 @@ namespace AreaGeode.API
                             Email = "support@sancsoft.com"
                         }
                     });
+                    
                 });
+            services.ConfigureSwaggerGen(options => options.IncludeXmlComments(GetXmlCommentsPath()));
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// One time confirugration
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
+        /// <param name="loggerFactory"></param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
@@ -53,6 +74,16 @@ namespace AreaGeode.API
             app.UseMvc();
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AreaGeode V1"));
+        }
+
+        /// <summary>
+        /// Get the path the XML Comments file generated for use by Swagger
+        /// </summary>
+        /// <returns>path to the xml documentation</returns>
+        private string GetXmlCommentsPath()
+        {
+            var app = PlatformServices.Default.Application;
+            return System.IO.Path.Combine(app.ApplicationBasePath, "AreaGeode.xml");
         }
     }
 }

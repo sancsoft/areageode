@@ -5,10 +5,19 @@ using AreaGeode.Library.DAL;
 
 namespace AreaGeode.API.Controllers
 {
+    /// <summary>
+    /// Web API controller to support gettng area code geolocation
+    /// information by area code
+    /// </summary>
     [Route("api/[controller]")]
     public class AreaGeodeController : Controller
     {
         IConfiguration _configuration;
+
+        /// <summary>
+        /// Construct with the configuration so that we can create repos
+        /// </summary>
+        /// <param name="configuration"></param>
         public AreaGeodeController(IConfiguration configuration)
         {
             _configuration = configuration;
