@@ -5,6 +5,13 @@ Area code geolocation library and service.
 An AreaGeode provides geolocation data based on a telephone area code.  Support is provided for
 US and Canada area codes. 
 
+This is handy for things such as:
+
+* Given a phone number, get a rough idea of where it is located
+* Given a phone number, get the state or province where it is located
+* Given a state or province, get a list of the area codes
+* Given a city, get a list of the area codes
+
 The database comes from the https://github.com/ravisorg/Area-Code-Geolocation-Database
 github repository.
 
