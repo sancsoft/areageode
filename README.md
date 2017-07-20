@@ -15,6 +15,20 @@ This is handy for things such as:
 The database comes from the https://github.com/ravisorg/Area-Code-Geolocation-Database
 github repository.
 
+
+## AreaGeode.Library
+
+A .NET Core library that implements the AreaGeode functionality and can be incorporated directly
+into a project.
+
+## AreaGeode.API
+
+A .NET Core WebAPI that can be used as a service for performing AreaGeode lookups that just
+puts an API front end on the library.
+
+The API requires an appsettings.json with a functional connection string. The file 
+sample.appsettings.json is provided as a template.
+
 ## Data Access Layer
 
 The data access layer is implemented using Dapper to SQL Server. The DAL is read-only, which
@@ -31,3 +45,4 @@ with the differences between .NET Core and traditional .NET Framework developmen
 some of the design decisions (ex. using SQL Server for the database) don't make a lot of sense, but serve
 my purposes.
 
+Developed in Visual Studio 2017 but also currently works in Visual Studio Code on Windows 10 and macOS.
