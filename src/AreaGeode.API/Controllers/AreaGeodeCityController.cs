@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using AreaGeode.Library.Models;
 using AreaGeode.Library.DAL;
 
@@ -13,15 +12,15 @@ namespace AreaGeode.API.Controllers
     [Route("api/[controller]")]
     public class AreaGeodeCityController : Controller
     {
-        IConfiguration _configuration;
+        IAreaGeodeCityViewRepository _repo;
 
         /// <summary>
         /// Construct with configuration so we can make repos
         /// </summary>
-        /// <param name="configuration"></param>
-        public AreaGeodeCityController(IConfiguration configuration)
+        /// <param name="repo"></param>
+        public AreaGeodeCityController(IAreaGeodeCityViewRepository repo)
         {
-            _configuration = configuration;
+            _repo = repo;
         }
 
         /// <summary>
@@ -34,8 +33,20 @@ namespace AreaGeode.API.Controllers
         [HttpGet("{areaCode}", Name = "GetAreaGeodeCities")]
         public List<AreaGeodeCityView> Get(int areaCode)
         {
-            AreaGeodeCityViewReposiitory repo = new AreaGeodeCityViewReposiitory(_configuration);
-            return repo.FindByAreaCode(areaCode).ToList();
+            return _repo.FindByAreaCode(areaCode).ToList();
         }
+
+        /// <summary>
+        /// Get geolocation information for all area codes associated with a city and optional state/province
+        /// </summary>
+        /// <param name="cityName">name of the city</param>
+        /// <param name="stateAbbr">state or province identifier- optional</param>
+        /// <returns></returns>
+        [HttpGet]
+        public List<AreaGeodeCityView> GetByCity([FromQuery]string cityName, [FromQuery]string stateAbbr="")
+        {
+            return _repo.FindByCity(cityName,stateAbbr).ToList();
+        }
+
     }
 }

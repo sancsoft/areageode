@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using AreaGeode.Library.Models;
 using AreaGeode.Library.DAL;
 
@@ -12,15 +13,15 @@ namespace AreaGeode.API.Controllers
     [Route("api/[controller]")]
     public class AreaGeodeController : Controller
     {
-        IConfiguration _configuration;
+        IAreaGeodeViewRepository _repo;
 
         /// <summary>
         /// Construct with the configuration so that we can create repos
         /// </summary>
-        /// <param name="configuration"></param>
-        public AreaGeodeController(IConfiguration configuration)
+        /// <param name="repo"></param>
+        public AreaGeodeController(IAreaGeodeViewRepository repo)
         {
-            _configuration = configuration;
+            _repo = repo;
         }
 
         /// <summary>
@@ -30,16 +31,27 @@ namespace AreaGeode.API.Controllers
         /// <response code="200">geolocation info for area code</response>
         /// <response code="404">area code not found</response>
         /// <response code="500">general error</response>
-        [HttpGet("{areaCode}", Name ="GetAreaGeode")]
+        [HttpGet("{areaCode}")]
         public AreaGeodeView Get(int areaCode)
         {
-            AreaGeodeViewReposiitory repo = new AreaGeodeViewReposiitory(_configuration);
-            AreaGeodeView o = repo.Find(areaCode);
+            //AreaGeodeViewReposiitory repo = new AreaGeodeViewReposiitory(_configuration);
+            AreaGeodeView o = _repo.Find(areaCode);
             if (o == null)
             {
                 throw new HttpException("Area Code not found", System.Net.HttpStatusCode.NotFound);
             }
             return o;
+        }
+
+        /// <summary>
+        /// Get the geolocation information for all area codes within a state or province
+        /// </summary>
+        /// <param name="stateAbbr">Two character state identifier</param>
+        /// <returns>list of area geodes in the state</returns>
+        [HttpGet]
+        public List<AreaGeodeView> Get([FromQuery]string stateAbbr)
+        {
+            return _repo.FindByState(stateAbbr).ToList();
         }
     }
 }

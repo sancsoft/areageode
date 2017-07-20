@@ -4,8 +4,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.Extensions.Logging;
-using AreaGeode.API.Middleware;
 using Swashbuckle.AspNetCore.Swagger;
+using AreaGeode.Library.DAL;
+using AreaGeode.Library.Dapper;
+using AreaGeode.API.Middleware;
+
 
 namespace AreaGeode.API
 {
@@ -39,6 +42,8 @@ namespace AreaGeode.API
         /// <param name="services">chain of services</param>
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IAreaGeodeViewRepository, AreaGeodeViewReposiitory>();
+            services.AddScoped<IAreaGeodeCityViewRepository, AreaGeodeCityViewReposiitory>();
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddMvc();
             services.AddSwaggerGen(c => {
