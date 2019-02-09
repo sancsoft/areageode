@@ -45,6 +45,7 @@ namespace AreaGeode.API
             services.AddScoped<IAreaGeodeViewRepository, AreaGeodeViewReposiitory>();
             services.AddScoped<IAreaGeodeCityViewRepository, AreaGeodeCityViewReposiitory>();
             services.AddSingleton<IConfiguration>(Configuration);
+            services.AddCors();
             services.AddMvc();
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", 
@@ -75,7 +76,10 @@ namespace AreaGeode.API
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
+            app.UseCors(builder => builder.AllowAnyOrigin());
             app.UseMvc();
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AreaGeode V1"));
@@ -88,7 +92,7 @@ namespace AreaGeode.API
         private string GetXmlCommentsPath()
         {
             var app = PlatformServices.Default.Application;
-            return System.IO.Path.Combine(app.ApplicationBasePath, "AreaGeode.xml");
+            return System.IO.Path.Combine(app.ApplicationBasePath, "AreaGeode.API.xml");
         }
     }
 }
