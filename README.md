@@ -11,10 +11,14 @@ This is handy for things such as:
 * Given a phone number, get the state or province where it is located
 * Given a state or province, get a list of the area codes
 * Given a city, get a list of the area codes
+* Given a phone number, get the range of timezones where the number resides
 
 The database comes from the https://github.com/ravisorg/Area-Code-Geolocation-Database
-github repository.
+github repository and has been manually maintained with new area codes. City data for 
+newer area codes may not be available.
 
+Timezones are presented as the eastern most and western most for the area code. If they
+are the same, the area code resides in a single timezone.
 
 ## AreaGeode.Library
 
