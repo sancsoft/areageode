@@ -8,5 +8,7 @@
         public double Longitude { get; set; }
         public string StateName { get; set; }
         public string CountryAbbr { get; set; }
+        public string TimezoneEast { get; set; }
+        public string TimezoneWest { get; set; }
     }
 }
